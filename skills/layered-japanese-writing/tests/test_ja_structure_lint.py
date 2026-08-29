@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import ast
 import importlib.util
+import re
 import sys
 import unittest
 from pathlib import Path
@@ -80,6 +82,56 @@ class JaStructureLintTest(unittest.TestCase):
         text = (ROOT / "tests" / "fixtures" / "short-boundary.md").read_text(encoding="utf-8")
         findings = LINT.lint_document(text, self.config, self.rules)
         self.assertEqual([], findings)
+
+    def test_skill_frontmatter_and_alps_claim(self) -> None:
+        text = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        frontmatter_match = re.match(r"\A---\n(.*?)\n---\n", text, re.DOTALL)
+        self.assertIsNotNone(frontmatter_match)
+
+        metadata: dict[str, str] = {}
+        for line in frontmatter_match.group(1).splitlines():
+            key, separator, raw_value = line.partition(":")
+            self.assertEqual(":", separator)
+            self.assertNotIn(key, metadata)
+            value = raw_value.strip()
+            metadata[key] = ast.literal_eval(value) if value.startswith(('"', "'")) else value
+
+        self.assertEqual(["name", "description"], list(metadata))
+        self.assertRegex(metadata["name"], r"\A[a-z0-9]+(?:-[a-z0-9]+)*\Z")
+        self.assertLessEqual(len(metadata["name"]), 64)
+        self.assertLessEqual(len(metadata["description"]), 1024)
+        self.assertTrue(metadata["description"].endswith("ALPS準拠。"))
+        self.assertIn("ALPS v0.5.0 12.1のDescription Conformance（PFおよびALPS 4–6）", text)
+        self.assertIn("Package検査には別途ALPS 5.5を適用する", text)
+        self.assertNotIn("12.1 a)", text)
+
+    def test_relative_markdown_links_resolve(self) -> None:
+        package_root = ROOT.resolve()
+        link_pattern = re.compile(r"\[[^]]+\]\(([^)]+)\)")
+        for source in ROOT.rglob("*.md"):
+            for raw_target in link_pattern.findall(source.read_text(encoding="utf-8")):
+                if raw_target.startswith(("https://", "http://", "mailto:", "#")):
+                    continue
+                target = raw_target.partition("#")[0]
+                resolved = (source.parent / target).resolve()
+                self.assertTrue(resolved.is_relative_to(package_root), f"Package外参照: {source}: {raw_target}")
+                self.assertTrue(resolved.exists(), f"未解決参照: {source}: {raw_target}")
+
+    def test_management_record_preserves_claim_boundaries(self) -> None:
+        management = (ROOT / "records" / "management.md").read_text(encoding="utf-8")
+        verification = (ROOT / "records" / "verification.md").read_text(encoding="utf-8")
+        license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
+
+        for expected in ("`process`", "0.1.0", "candidate", "Git tag", "GitHub Release"):
+            self.assertIn(expected, management)
+        self.assertIn("Skill Descriptionのみ", verification)
+        self.assertIn("ALPS v0.5.0 5.5", verification)
+        self.assertNotIn("12.1 a)", verification)
+        self.assertNotIn("Packageを対象とする5.7", verification)
+        for defect_id in ("VAL-001", "VAL-002"):
+            self.assertRegex(verification, rf"\| .* \| .* \| 未評価 \| {defect_id} \|")
+        self.assertIn("MIT License", license_text)
+        self.assertIn("The above copyright notice and this permission notice", license_text)
 
 
 if __name__ == "__main__":

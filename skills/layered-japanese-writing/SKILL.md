@@ -117,15 +117,20 @@ description: "日本語の説明文・技術文書を、境界付き完全性、
 - [評価設計](references/evaluation.md): 本Skillやlint規則をベンチマーク、比較、または改善するときに読む。
 - [調査上の根拠](references/research-basis.md): 本Skillの設計判断を再検討するとき、または既存手法との責務を比較するときに読む。
 - [自動化ガイド](references/automation.md): editor hook、停止時検査、またはCIへlintを統合するときに読む。
-- `scripts/ja_structure_lint.py`: 決定的に検出できるMarkdown構造、局所情報量、および表層規則を確認するときに用いてよい。
-- `config/default.json`と`rules/default.jsonl`: lintの参考閾値と宣言的規則であり、適用先に合わせてTailoringしてよい。
-- `records/`: Skillニーズ、要素間対応、および初期検証の証拠であり、通常の実行時には読み込む必要がない。
+- [lintハーネス](scripts/ja_structure_lint.py): 決定的に検出できるMarkdown構造、局所情報量、および表層規則を確認するときに用いてよい。
+- [既定設定](config/default.json)と[宣言的規則](rules/default.jsonl): lintの参考閾値と宣言的規則であり、適用先に合わせてTailoringしてよい。
+- [ニーズ記録](records/need.md)、[要素間対応](records/traceability.md)、[検証記録](records/verification.md)、および[管理記録](records/management.md): 定義、検証、および管理の証拠であり、通常の実行時には読み込む必要がない。
+- [OpenAI Host向けmetadata](agents/openai.yaml): 発見と表示に用いるHost固有情報であり、Process Inputではない。
+- [回帰テスト](tests/): lintハーネスとSkill Packageを変更または再検証するときに用い、通常の実行時には読み込む必要がない。
+- [MIT License](LICENSE): 配布と利用の条件であり、Skill単体で配布する場合も同梱する。
 
 ## Conformance
 
-標準化された簡略主張「ALPS準拠。」の対象は本Skill Descriptionであり、基準はALPS 12.1 a)の記述適合である。
-Skill Packageの検証結果は`records/verification.md`に記録する。
-本記述は、個別のSkill Instanceに対する実行適合を主張しない。
+frontmatter末尾の簡略主張「ALPS準拠。」は、本Skill Descriptionのみを対象とする。
+基準はALPS v0.5.0 12.1のDescription Conformance（PFおよびALPS 4–6）である。
+Skill Packageは適合主張の対象外とし、Package検査には別途ALPS 5.5を適用する。
+検証結果は[検証記録](records/verification.md)に記録する。
+この自己評価は、独立認証、Process Conformance、Execution Conformance、正式採用、Outcome達成、または有効性確認を意味しない。
 
 ## Common Approach
 
