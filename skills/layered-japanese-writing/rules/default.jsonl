@@ -1,0 +1,4 @@
+{"id":"SURFACE001","severity":"suggestion","pattern":"することができる","message":"冗長な可能表現です。意味が変わらない場合は短くできます。","replacement":"できる","autofix":true}
+{"id":"SURFACE002","severity":"suggestion","pattern":"(?:見ていきましょう|解説していきます|説明していきます)","message":"内容を増やさない進行メタ表現です。節の主題を直接述べられるか確認してください。","autofix":false}
+{"id":"CLAIM001","severity":"warning","pattern":"(?:絶対に|必ず|完全に|一切)(?!ない)","message":"強い断定です。成立条件と根拠が十分か確認してください。","autofix":false}
+{"id":"REFERENCE001","severity":"suggestion","pattern":"(?:これ|それ|このこと|そのこと)(?:は|が|を|に|で)","message":"指示対象が局所的に一意か確認してください。","autofix":false}

@@ -1,0 +1,6 @@
+interface:
+  display_name: "階層型日本語文書"
+  short_description: "完全性・抽象階層・局所負荷から日本語技術文書を設計・校正"
+  default_prompt: "$layered-japanese-writing を使い、この日本語文書の知識依存と抽象階層を校正してください。"
+policy:
+  allow_implicit_invocation: true

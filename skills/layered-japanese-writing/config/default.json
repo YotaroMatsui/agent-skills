@@ -1,0 +1,15 @@
+{
+  "max_heading_depth": 4,
+  "max_heading_depth_jump": 1,
+  "max_paragraph_chars": 420,
+  "max_paragraph_sentences": 4,
+  "max_section_chars": 1800,
+  "max_section_paragraphs": 7,
+  "sentence_per_line": false,
+  "check_style_consistency": true,
+  "style_min_sentences": 8,
+  "style_minor_ratio": 0.2,
+  "rule_files": [
+    "../rules/default.jsonl"
+  ]
+}
