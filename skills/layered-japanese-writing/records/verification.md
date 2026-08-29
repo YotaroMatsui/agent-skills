@@ -1,31 +1,33 @@
 # Skill検証記録
 
 - 対象Skill・版: `layered-japanese-writing` 0.1.0
-- 検証範囲: Skill DescriptionおよびSkill Package
-- Conformance対象: 記述
-- Conformance形態: 該当なし
-- Conformance基準: ALPS 12.1 a)に基づく箇条4から6の記述適合、およびPackageを対象とする5.7。
+- 検証範囲: Skill Description、およびConformance主張と分離したSkill Package検査
+- Conformance主張の対象: Skill Descriptionのみ
+- Conformance主張の種類: Description Conformance（自己評価）
+- Conformance基準: ALPS v0.5.0 12.1のDescription Conformance（PFおよびALPS 4–6）
+- Skill Package検査基準: ALPS v0.5.0 5.5
+- Process ConformanceおよびExecution Conformance: 評価対象外
 - 適用規範・Control: ALPS、Process Framework、Codex Skill Creator、ユーザーが提示した知識完全性・再帰性・抽象階層・情報量の構想、日本語技術文書規範。
 - レビュー基準: Name、Purpose、Outcomeの単一性と整合、Taskの行為性と規範属性、一般Skillの方法非依存性、発見層と実行層の整合、付随資源の役割、参照解決、代表文脈でのOutcome達成可能性。
-- 独立した観点: ALPS同梱の機械的事前検査、決定的unit test、およびfixtureの期待値を用いた。独立した人間または別LLMによるforward testは未実施である。
+- 評価主体と独立性: 保守者による自己評価と自動テストを用いた。独立認証ではなく、独立した人間または別LLMによるforward testは未実施である。
 - 代表的利用文脈: 概念密度の高い日本語解説、Markdownの構造校正、表層規則の安全な修正、構造上の欠陥を含む原稿。
 - 境界事例: 一段落で完結する短い操作説明、コードフェンス・URL・引用・frontmatter、短い内部フェンス、文書先頭の水平線。
 
 ## 結果
 
-| 検証項目 | 証拠 | 判定 | 欠陥ID |
+| 検証項目 | 証拠 | 確認結果 | 欠陥ID |
 |---|---|---|---|
-| 発見層が作業、適用状況、判定情報を示し、`ALPS準拠。`で終わる | `SKILL.md` frontmatter、ALPS checker | 適合 | なし |
-| Name、Purpose、Outcomeが役割を分け、PurposeをOutcomeが充足する | `SKILL.md`、`traceability.md` | 適合 | なし |
-| 各Taskが個別行為と規範属性を持つ | K1からV6の手動レビュー、ALPS checker | 適合 | なし |
-| 規範部分が特定のツール、固定閾値、実行順序を一般要件にしない | Constraints、Enablers、Common Approachの手動レビュー | 適合 | なし |
-| TaskとOutcomeを追跡できる | `traceability.md` | 適合 | なし |
-| 正本のSkill Descriptionが一つで、付随資源の役割と利用条件が識別できる | `SKILL.md` Bundled Resources、相対リンク検査 | 適合 | なし |
-| Skill Creatorのfrontmatter、命名、placeholder条件を満たす | Ruby YAML解析、名称・長さ・文字種検査、`rg`によるplaceholder検査 | 適合 | ENV-001 |
-| lintが構造、保護領域、情報量、outline、autofix、Markdown異常を再現可能に扱う | `python3 -m unittest discover -s tests -v`: 9件成功 | 適合 | TST-001（処置済み） |
-| 良好fixtureと短文境界事例を過剰検出しない | `layered-good.md`と`short-boundary.md`: error、warning、suggestion各0件 | 適合 | なし |
-| 問題fixtureから期待する構造・表層所見を得る | `problematic.md`: error 1件、warning 1件、suggestion 3件 | 適合 | なし |
-| 概念解説を見出しと主題文の木へ投影できる | `outline layered-good.md`、`test_outline_keeps_heading_tree` | 適合 | なし |
+| 発見層が作業、適用状況、判定情報を示し、`ALPS準拠。`で終わる | `SKILL.md` frontmatter、`test_skill_frontmatter_and_alps_claim` | 確認済み | なし |
+| Name、Purpose、Outcomeが役割を分け、PurposeをOutcomeが充足する | `SKILL.md`、`traceability.md` | 確認済み | なし |
+| 各Taskが個別行為と規範属性を持つ | K1からV6の手動レビュー | 確認済み | なし |
+| 規範部分が特定のツール、固定閾値、実行順序を一般要件にしない | Constraints、Enablers、Common Approachの手動レビュー | 確認済み | なし |
+| TaskとOutcomeを追跡できる | `traceability.md` | 確認済み | なし |
+| 正本のSkill Descriptionが一つで、付随資源の役割と利用条件が識別できる | `SKILL.md` Bundled Resources、`test_relative_markdown_links_resolve`、Vercel Skills CLI copy smoke | 確認済み | なし |
+| Skill Creatorのfrontmatter、命名、placeholder条件を満たす | `test_skill_frontmatter_and_alps_claim`、Vercel Skills CLI discovery smoke | 確認済み | ENV-001 |
+| lintが構造、保護領域、情報量、outline、autofix、Markdown異常を再現可能に扱う | `python3 -m unittest discover -s tests -v`: 12件成功 | 確認済み | TST-001（処置済み） |
+| 良好fixtureと短文境界事例を過剰検出しない | `layered-good.md`と`short-boundary.md`: error、warning、suggestion各0件 | 確認済み | なし |
+| 問題fixtureから期待する構造・表層所見を得る | `problematic.md`: error 1件、warning 1件、suggestion 3件 | 確認済み | なし |
+| 概念解説を見出しと主題文の木へ投影できる | `outline layered-good.md`、`test_outline_keeps_heading_tree` | 確認済み | なし |
 | 実読者の理解時間と回答精度が改善する | 実読者試験を未実施 | 未評価 | VAL-001 |
 | 意味レビューの評価者間一致と意味保存率 | 独立評価を未実施 | 未評価 | VAL-002 |
 
@@ -44,9 +46,10 @@
 - 420文字、4文、1800文字、7段落などの既定値は、初期の候補箇所を得るための参考閾値であり、品質標準ではない。
 - JSONLの表層規則は初期例に限り、運用前に対象コーパスでprecisionとrecallを測る必要がある。
 - ja-lint紹介からは構成上の着想だけを採用し、公開実装または再現可能な性能値を利用していない。
-- 記述適合と初期Package検証は、個別文書への実行適合や外的妥当性を意味しない。
+- Description Conformanceの自己評価とSkill Package検査は、独立認証、Process Conformance、Execution Conformance、正式採用、Outcome達成、または外的妥当性を意味しない。
 
 ## 初期判断
 
-記述と決定的ハーネスは、試行利用が可能な状態にある。
-実読者の理解改善を含む本採用は、VAL-001とVAL-002の証拠が得られるまで条件付きとする。
+本Representationの管理状態はcandidateであり、利用は試行に限る。
+正式採用は未決定である。
+VAL-001とVAL-002は未評価であり、実読者の理解改善、意味保存率、および評価者間一致を含む有効性は未確認である。

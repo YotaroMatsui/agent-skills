@@ -1,14 +1,16 @@
 # 要素間トレーサビリティ
 
-| Outcome参照 | 寄与するActivity | 寄与するTask参照 | 関連Input/Output | 検証証拠 | 状態 |
+この表はSkill Description内の要素間対応を示し、Process InstanceでのOutcome達成またはExecution Conformanceを示さない。
+
+| Outcome参照 | 寄与するActivity | 寄与するTask参照 | 関連Input/Output | 検証証拠 | 記述上の対応 |
 |---|---|---|---|---|---|
-| O1 | 知識契約の設定 | K1, K2, K3, K5 | 読者・目的・範囲 / 知識契約 | `tests/fixtures/layered-good.md`, `records/verification.md` | 適合 |
-| O2 | 抽象階層の整合、局所構成の形成 | H1, H2, L1, L2 | 原稿 / 階層化文書 | `outline`の期待値、手動レビュー | 適合 |
-| O3 | 知識契約の設定、抽象階層の整合、意味と構造の検証 | K3, H3, H4, V2 | 根拠資料 / 依存関係所見 | `review-rubric.md`, 手動レビュー | 適合 |
-| O4 | 局所構成の形成 | L1, L3, L4 | 原稿 / 校正文 | `test_long_paragraph_is_reported` | 適合 |
-| O5 | 抽象階層の整合、意味と構造の検証 | H2, H3, V1 | 文書 / アウトライン投影 | `test_outline_keeps_heading_tree` | 適合 |
-| O6 | 知識契約の設定、局所構成の形成、意味と構造の検証 | K4, L5, V3 | 原資料 / 意味差分所見 | `review-rubric.md` R8、手動レビュー | 適合 |
-| O7 | 抽象階層の整合、意味と構造の検証 | H3, V2, V5 | 未解決前提 / 未解消事項 | `tests/fixtures/layered-good.md`, 手動レビュー | 適合 |
+| O1 | 知識契約の設定 | K1, K2, K3, K5 | 読者・目的・範囲 / 知識契約 | `tests/fixtures/layered-good.md`, `records/verification.md` | 対応確認済み |
+| O2 | 抽象階層の整合、局所構成の形成 | H1, H2, L1, L2 | 原稿 / 階層化文書 | `outline`の期待値、手動レビュー | 対応確認済み |
+| O3 | 知識契約の設定、抽象階層の整合、意味と構造の検証 | K3, H3, H4, V2 | 根拠資料 / 依存関係所見 | `review-rubric.md`, 手動レビュー | 対応確認済み |
+| O4 | 局所構成の形成 | L1, L3, L4 | 原稿 / 校正文 | `test_long_paragraph_is_reported` | 対応確認済み |
+| O5 | 抽象階層の整合、意味と構造の検証 | H2, H3, V1 | 文書 / アウトライン投影 | `test_outline_keeps_heading_tree` | 対応確認済み |
+| O6 | 知識契約の設定、局所構成の形成、意味と構造の検証 | K4, L5, V3 | 原資料 / 意味差分所見 | `review-rubric.md` R8、手動レビュー | 対応確認済み |
+| O7 | 抽象階層の整合、意味と構造の検証 | H3, V2, V5 | 未解決前提 / 未解消事項 | `tests/fixtures/layered-good.md`, 手動レビュー | 対応確認済み |
 
 ## 外部との授受
 
